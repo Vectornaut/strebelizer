@@ -173,9 +173,12 @@ function flat_torus(a_charge, b_charge, a_res, b_res)
 end
 
 function dumb_example()
-  g = RibbonGraph([-2, -3, -1], [3, 1, 2])
-  pos_charge = [1, im, -(1+im)]
+  # not actually a flat structure, because the triangle 2, 4, -6 violates the
+  # charge sum rule
+  g = RibbonGraph([-2, -3, -1, 5, 6, 4], [-5, -6, -4, 2, 3, 1])
+  pos_charge = [1+im, -1, -im, -1-im, 1, -im]
   flat_struct = DirEdgeFn(g, pos_charge, -pos_charge)
+  
   show(g)
   println()
   show(energy_density(flat_struct).values)

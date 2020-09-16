@@ -172,9 +172,14 @@ function flat_torus(a_charge, b_charge, a_res, b_res)
   DirEdgeFn(RibbonGraph(pos_next, neg_next), pos_charge, -pos_charge)
 end
 
-function dumb_example()
+function dumb_example(square = true)
   g = RibbonGraph([-2, 5, 6, 2, 4, -4], [-3, -6, -5, 3, -1, 1])
-  pos_charge = [1, im, im, 1, 1+im, -1+im]
+  if square
+    u = [1, im]
+  else
+    u = [1, cis(2pi/3)]
+  end
+  pos_charge = [u[1], u[2], u[2], u[1], u[1] + u[2], -u[1] + u[2]]
   flat_struct = DirEdgeFn(g, pos_charge, -pos_charge)
   show(g)
   println()

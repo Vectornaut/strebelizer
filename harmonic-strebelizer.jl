@@ -1,6 +1,6 @@
 module Strebelizer
 
-using LinearAlgebra, Plots
+using LinearAlgebra, Formatting
 
 export Mesh, edge, next, cot_to_next, distortion, example
 
@@ -77,12 +77,17 @@ end
 (w::DirEdgeFn)(e) = e > 0 ? w.pos_values[e] : w.neg_values[-e]
 
 function Base.show(m::Mesh)
+  e_form = string("{: 0", 1 + length(digits(length(m))), "d}")
+  v_form = string("{:0", length(digits(maximum([m.pos_vertex; m.neg_vertex]))), "d}")
+  to_endpts = FormatExpr(string(e_form, ": ", v_form, " --> ", v_form))
+  next_form = string(e_form, " --> ", e_form)
+  to_next = FormatExpr(string(next_form, "   ", next_form))
   for e in 1:length(m)
-    println(e, ": ", vertex(m, -e), " --> ", vertex(m, e))
+    printfmtln(to_endpts, e, vertex(m, -e), vertex(m, e))
   end
   println()
   for e in 1:length(m)
-    println(e, " --> ", next(m, e), "\t\t", -e, " --> ", next(m, -e))
+    printfmtln(to_next, e, next(m, e), -e, next(m, -e))
   end
 end
 
